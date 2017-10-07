@@ -1,0 +1,139 @@
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+//
+// Global Reset of all HTML Elements
+// Source - https://gist.github.com/joshuapowell/1680540
+//
+// Resetting all of our HTML Elements ensures a smoother
+// visual transition between browsers. If you don't believe me,
+// try temporarily commenting out this block of code, then go
+// and look at Mozilla versus Safari, both good browsers with
+// a good implementation of CSS. The thing is, all browser CSS
+// defaults are different and at the end of the day if visual
+// consistency is what we're shooting for, then we need to
+// make sure we're resetting all spacing elements.
+//
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//             _____               _                //
+//            | ___ \             | |               //
+//            | |_/ /___  ___  ___| |_              //
+//            |    // _ \/ __|/ _ \ __|             //
+//            | |\ \  __/\__ \  __/ |_              //
+//            \_| \_\___||___/\___|\__|             //
+//                                                  //
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+// Selection //
+::selection
+	color: 		  $base-selection-color
+	background: $base-selection-background
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+// Eveything //
+*
+	margin:   0
+
+// General //
+html, body
+	margin:   0
+	padding:  0
+	height:   100%
+
+// Body //
+body
+	position:   relative
+	height:     100%
+	color:      $base-color
+	background: $base-background
+	cursor:     $base-cursor-default
+	font:
+		size:     $base-font-size
+		family:   $base-font-family
+		weight:   $base-font-weight
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+div, span, object, iframe, img, table, caption, thead, tbody, tfoot, tr, td, article, aside, canvas, details, figure, hgroup, menu, nav, footer, header, section, summary, mark, audio, video, flash
+	//border: 0
+
+// Headers //
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code, del, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd, ol, ul, li, fieldset, legend, label
+	border: 0
+	vertical:
+		align: baseline
+
+// Articles //
+article, aside, canvas
+	display: block
+
+// Input Styling //
+input,
+select,
+textarea
+	font:
+		family: $base-font-family
+	&:hover
+		cursor: $base-cursor-hover
+
+// Figures //
+figure, figcaption, hgroup, footer, header, nav, section, audio, video
+	display: block
+	img
+		display: block
+
+// Tables //
+table
+	border:
+		collapse: separate
+		spacing: 0
+
+// Horizontal Rules //
+hr
+	display:		block
+	margin:  		$base-horizontal-margin
+	height: 		$base-horizontal-height
+	background: $base-horizontal-color
+	box:
+		shadow:		$base-horizontal-shadow
+
+// Bold //
+b
+	color:      $base-color
+
+// Paragraphs //
+p
+	display: block
+	margin:
+		bottom: 1.25em
+
+// Links //
+a
+	color: 				  $base-link-color
+	transition: 		opacity $animation-duration ease-in-out
+	position: 			relative
+	text:
+		decoration: 	$base-link-text-decoration
+	z:
+		index:        6
+
+	// Hover //
+	&:hover
+		cursor:       $base-cursor-hover
+		opacity:      $base-link-hover-opacity
+
+	// Img //
+	img
+		border:       0
+
+\:focus
+	outline:        0
+
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////

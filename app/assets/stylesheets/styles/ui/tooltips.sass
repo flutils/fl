@@ -1,0 +1,139 @@
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//     _____           _ _   _       	     //
+//	  |_   _|         | | | (_)      	     //
+//		  | | ___   ___ | | |_ _ _ __        //
+//		  | |/ _ \ / _ \| | __| | '_ \       //
+//		  | | (_) | (_) | | |_| | |_) |      //
+//		  \_/\___/ \___/|_|\__|_| .__/       //
+//		                        | |          //
+//		                        |_|          //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+/// Last updated 14/08/2017
+/// Bootstrap 4.0.0.beta
+/// R.Peck
+
+// Functions
+// Required unless called from gem (which calls functions in application)
+@import functions
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+// Tooltip
+.tooltip
+
+  //Animation (from Animate.css)
+  animation:
+    name:       fadeIn
+    duration:   ($animation-duration * 1.5)
+    fill-mode:  both
+
+  // Styling
+  color:        $tooltip-color
+  position:		  absolute
+  display:		  block
+  cursor:       $base-cursor-default
+  padding: 		  $tooltip-padding
+  background:
+    color:      $tooltip-bg
+  line:
+    height: 	  1.5em
+  text:
+    align:      $tooltip-text-align
+    decoration: $tooltip-text-decoration
+    shadow:     $tooltip-text-shadow
+    transform:  $tooltip-text-transform
+  white:
+    space:      normal
+  word:
+    break:      normal
+    spacing:    normal
+    wrap:       ellipsis
+  font:
+    size: 		  $tooltip-font-size
+    weight:     $tooltip-font-weight
+  border:
+    width:      $tooltip-border-width
+    style:      $tooltip-border-style
+    color:      $tooltip-border-color
+    radius: 	  $tooltip-border-radius
+  box:
+    sizing: 	  border-box
+    shadow:     $tooltip-inner-shadow, $tooltip-outer-shadow
+  z:
+    index: 		  1500
+  user:
+    select: 	  none
+
+  /////////////////////
+
+  &:hover
+    cursor:     $base-cursor-default
+
+  /////////////////////
+  /////////////////////
+
+  // Show
+  .show
+    opacity:    $tooltip-opacity
+
+  /////////////////////
+
+  // Arrow
+  .arrow
+    display:  block
+    position: absolute
+    border:
+      style:  solid
+      color:  transparent
+    box:
+      sizing: border-box
+
+  /////////////////////
+  /////////////////////
+
+  @each $pos in top, right, bottom, left
+
+    $opposite:      opposite($pos)
+    $margin:        axis($pos,"top","left")
+    $arrow:         axis($pos,"left","top")
+
+    &.bs-tooltip-#{$pos}
+      background:
+        image:            linear-gradient(to #{$opposite}, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)
+      margin:
+        #{$opposite}:     $tooltip-arrow-width
+      .arrow
+        #{$opposite}:     (-$tooltip-arrow-width)
+        border:
+          width:          $tooltip-arrow-width
+          #{$pos}-color:  $tooltip-bg
+          #{$opposite}-width: 0 !important
+
+  /////////////////////
+  /////////////////////
+
+  // Auto
+  &.bs-tooltip-auto
+    @each $pos in top, right, bottom, left
+      &[x-placement^="#{$pos}"]
+        @extend .bs-tooltip-#{$pos}
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+// Arrows
+.tooltip-inner
+  overflow:   hidden
+  width:      100%
+  max:
+    width:    $tooltip-max-width
+  text:
+    overflow: ellipsis
+  white:
+    space:    nowrap
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////

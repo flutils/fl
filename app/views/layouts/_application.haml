@@ -1,0 +1,17 @@
+/ Header
+- haml_tag_if content_for?(:header), "%header" do
+  = liquidize yield(:header)
+
+%header= link_to "Header Area", "http://gooogle.com", title: "TEST srtwertwretsdf sdf sdf sdf sdf sdf ", data: { placement: :left }
+
+/ Main
+%main
+  - %i(inner_header main inner_footer).each do |element|
+    - haml_tag_if content_for?(element), element.to_s.split("_").last do
+      = liquidize yield (element == :main ? nil : element)
+
+/ Footer
+- haml_tag_if content_for?(:footer), "%footer" do
+  = liquidize yield(:footer)
+
+%footer= link_to "Footer Area", "http://gooogle.com", title: "TEST"

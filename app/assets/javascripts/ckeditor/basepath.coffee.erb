@@ -1,0 +1,21 @@
+############################################
+############################################
+
+# BASEPATH
+# This caused massive issues with the config.assets.prefix setting
+# https://github.com/galetahub/ckeditor#include-customized-ckeditor_basepath-setting
+
+############################################
+############################################
+
+<%
+  base_path = ''
+  base_path << "/#{Rails.root.basename.to_s}/" if ENV['PROJECT'] =~ /editor/i
+  base_path << Rails.application.config.assets.prefix
+  base_path << '/ckeditor/'
+%>
+
+CKEDITOR_BASEPATH = '<%= base_path %>'
+
+############################################
+############################################

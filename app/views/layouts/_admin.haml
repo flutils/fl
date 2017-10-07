@@ -1,0 +1,6 @@
+= link_to current_user.name, admin_settings_path, title: "Update Profile", data: { placement: :right } if user_signed_in?
+= auth
+
+/ Body
+%main
+  %main= yield

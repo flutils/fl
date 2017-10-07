@@ -1,0 +1,75 @@
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//       ______                _   _                      //
+//       |  ___|              | | (_)                     //
+//       | |_ _   _ _ __   ___| |_ _  ___  _ __  ___      //
+//       |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|     //
+//       | | | |_| | | | | (__| |_| | (_) | | | \__ \     //
+//       \_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/     //
+//                                                        //
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+// Capitalize
+// http://www.sassmeister.com/gist/10011785
+@function capitalize($string)
+  @return to-upper-case(str-slice($string, 1, 1)) + str-slice($string, 2)
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//             _____           _ _   _                    //
+//            |_   _|         | | | (_)                   //
+//              | | ___   ___ | | |_ _ _ __               //
+//              | |/ _ \ / _ \| | __| | '_ \              //
+//              | | (_) | (_) | | |_| | |_) |             //
+//              \_/\___/ \___/|_|\__|_| .__/              //
+//                                    | |                 //
+//                                    |_|                 //
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+// Nested Keys
+@function map-has-nested-keys($map, $key)
+  @each $pos, $list in $map
+    @each $item in $list
+      @if $item == $key
+        @return $pos
+  @return false
+
+////////////////////////////////////////
+////////////////////////////////////////
+
+// Opposite
+// https://css-tricks.com/snippets/sass/opposite-direction-function/
+@function opposite($directions)
+  $opposite-directions: ()
+  $direction-map:       ('top':'bottom','right':'left','bottom':'top','left':'right')
+
+  @each $direction in $directions
+    $direction: to-lower-case($direction)
+
+    @if map-has-key($direction-map, $direction)
+      $opposite-directions: append($opposite-directions, unquote(map-get($direction-map, $direction)))
+    @else
+      @warn "No opposite direction can be found for `#{$direction}`. Direction omitted."
+
+  @return $opposite-directions
+
+////////////////////////////////////////
+////////////////////////////////////////
+
+// Axis
+@function axis($pos, $y, $x)
+  $output:  ""
+  $axes:    (y: (top,bottom), x: (left,right))
+  $lookup:  map-has-nested-keys($axes, $pos)
+
+  @if $lookup
+    $output: map-get((y:$y,x:$x), $lookup)
+  @else
+    @warn "No opposite direction can be found for `#{$pos}`"
+
+  @return $output
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////

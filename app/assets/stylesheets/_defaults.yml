@@ -1,0 +1,106 @@
+############################################################
+############################################################
+##           _____      __            _ _                 ##
+##          |  _  \    / _|          | | |                ##
+##          | | | |___| |_ __ _ _   _| | |_ ___           ##
+##          | | | / _ \  _/ _` | | | | | __/ __|          ##
+##          | |/ /  __/ || (_| | |_| | | |_\__ \          ##
+##          |___/ \___|_| \__,_|\__,_|_|\__|___/          ##
+##                                                        ##
+############################################################
+############################################################
+##      Remember, this gets translated into a hash        ##
+##  If you need to use border etc, split it up into indv  ##
+############################################################
+############################################################
+
+## Base ##
+base:
+  color:          rgba(255,255,255,1)
+  background:     rgba(0,0,0,1)
+  modal:
+    border:       none
+    background:   rgba(0,0,0,0.5)
+  cursor:
+    default:      default
+    hover:        pointer
+    move:         move
+  horizontal:
+    color:        rgba(214,3,0,1)
+    shadow:       0 0 5px 0 rgba(255, 0, 0, 1)
+    height:       1px
+    margin:       0.95em 0
+  link:
+    color:        rgba(255,255,255,1)
+    hover:
+      color:      rgba(255,255,255,1)
+      opacity:    0.5
+    text:
+      decoration: underline
+  font:
+    size:         9pt
+    family:       Arial, Sans Serif, Helvetica
+    weight:       400
+  selection:
+    color:        rgba(255,255,255,1)
+    background:   rgba(255,0,0,1)
+
+########################################
+##             Structure              ##
+########################################
+
+## Header ##
+header:
+  padding:        2em 0
+
+## Footer
+footer:
+  padding:        2em 0
+
+########################################
+##                 UI                 ##
+########################################
+
+## Flash ##
+flash:
+  padding:        0.5em
+  base:           rgba(#575757,1)
+  notice:         rgba(#00FF62,1)
+  error:          rgba(#FF002F,1)
+  alert:          rgba(#0B53B8,1)
+
+## Animation ##
+animation:
+  duration:       0.15s
+
+## Tooltips ##
+tooltip:
+  opacity:       1
+  color:         rgba(255,255,255,1)
+  bg:            rgba(0,0,0,1)
+  margin:        8px
+  padding:       0.25em 1em
+  arrow:
+    width:       4px
+  inner:
+    shadow:      inset 0 0 0 1px rgba(255,255,255,0.175)
+  outer:
+    shadow:      0 1px 0 0 rgba(0,0,0,0.35)
+  border:
+    width:       1px
+    color:       rgba(0,0,0,1)
+    style:       solid
+    radius:      3px
+  max:
+    width:       150px
+  font:
+    size:        0.7em
+    weight:      bold
+  text:
+    align:       left
+    shadow:      none
+    decoration:  none
+    transform:   uppercase
+
+############################################################
+############################################################

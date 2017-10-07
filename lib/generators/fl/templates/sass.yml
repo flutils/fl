@@ -1,0 +1,56 @@
+####################################################
+##   _   _            _       _     _             ##
+##  | | | |          (_)     | |   | |            ##
+##  | | | | __ _ _ __ _  __ _| |__ | | ___  ___   ##
+##  | | | |/ _` | '__| |/ _` | '_ \| |/ _ \/ __|  ##
+##  \ \_/ / (_| | |  | | (_| | |_) | |  __/\__ \  ##
+##   \___/ \__,_|_|  |_|\__,_|_.__/|_|\___||___/  ##
+##                                                ##
+####################################################
+#
+# production:
+#   color: 'blue'                #result: !color = blue
+#   host: 'http://example.com'   #result: !host = http://example.com
+# development:
+#   color: 'red'
+#   host: 'http://localhost:3000'
+# test:
+#   color: 'gray' #result: !color = gray
+#   host: 'http://localhost:3000'
+#
+#############################################
+## Uses sass.rb initializer
+## Any changes = restart server
+#############################################
+
+# All
+anything:
+  can: "go here"
+
+##############################
+
+# Development
+development:
+  base:
+
+# Staging
+staging:
+  base:
+
+# Production
+production:
+  base:
+
+#############################################
+
+## Mixins ##
+## http://michael.f1337.us/2010/03/30/482836205/
+## To include variables, encapsulate key in string
+#mixin:
+#  fit-content: |
+#    width: intrinsic
+#    width: -moz-fit-content
+#    width: -webkit-fit-content
+
+#############################################
+#############################################

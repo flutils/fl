@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    = title yield(:title) + (" - " if content_for(:title)) + Rails.application.secrets.app[:name]
+
+    = meta :js,          (admin? ? "admin" : "application"), "//js.pusher.com/3.2/pusher.min.js", "data-turbolinks-track" => :reload
+    = meta :stylesheet,  (admin? ? "admin" : "application"), "//fonts.googleapis.com/css?family=Montserrat|Open+Sans", media: :all, "data-turbolinks-track" => :reload
+
+    = meta :description, Rails.application.secrets[:app][:description]
+    = meta :keywords,    Rails.application.secrets[:app][:keywords]
+    = meta :author,      Rails.application.secrets[:app][:author]
+
+    = meta :meta,       "pinterest, no pin"
+    = meta :viewport,   "width=device-width, initial-scale=1"
+
+    = meta :favicon
+    = meta :robots
+    = meta :csrf
+
+  %body{class: ("admin" if admin?)}
+    = render "layouts/" + (admin? ? "admin" : "application")
+    %modal
+      %main
+        TEST TEST TEST
+        %br asdfadsfaf
+        %br adsfasdf

@@ -1,0 +1,146 @@
+#################################################
+#################################################
+##   _____  _   __ _____    _ _ _              ##
+##  /  __ \| | / /|  ___|  | (_) |             ##
+##  | /  \/| |/ / | |__  __| |_| |_ ___  _ __  ##
+##  | |    |    \ |  __|/ _` | | __/ _ \| '__| ##
+##  | \__/\| |\  \| |__| (_| | | || (_) | |    ##
+##   \____/\_| \_/\____/\__,_|_|\__\___/|_|    ##
+##                                             ##
+#################################################
+#################################################
+
+# Any extra skins, put them into vendor/assets/javascripts/ckeditor/skins/...
+# https://github.com/galetahub/ckeditor/issues/88#issuecomment-4327683
+
+#################################################
+#################################################
+
+### BASE PATH ###
+
+# Sometimes, the base path can become corrupted.
+# There is a tutorial here: https://github.com/galetahub/ckeditor#include-customized-ckeditor_basepath-setting
+# Basically, if you change assets.prefix, it will likely not change in CKEditor
+# The best way to fix it is by running "rake tmp:clear"
+
+#= link_tree ./skins
+#= link_tree ./plugins
+
+#################################################
+#################################################
+
+#CKEditor -> https://github.com/galetahub/ckeditor/issues/470
+################################
+
+CKEDITOR.editorConfig = (config) ->
+
+  #################################
+
+  config.filebrowserBrowseUrl           = "/ckeditor/attachment_files"
+  config.filebrowserFlashBrowseUrl      = "/ckeditor/attachment_files"
+  config.filebrowserFlashUploadUrl      = "/ckeditor/attachment_files"
+  config.filebrowserImageBrowseLinkUrl  = "/ckeditor/pictures"
+  config.filebrowserImageBrowseUrl      = "/ckeditor/pictures"
+  config.filebrowserImageUploadUrl      = "/ckeditor/pictures"
+  config.filebrowserUploadUrl           = "/ckeditor/attachment_files"
+
+  #################################
+
+  #CSRF
+  config.filebrowserParams = ->
+    csrf_token = undefined
+    csrf_param = undefined
+    meta = undefined
+    metas = document.getElementsByTagName("meta")
+    params = new Object()
+    i = 0
+
+    while i < metas.length
+      meta = metas[i]
+      switch meta.name
+        when "csrf-token"
+          csrf_token = meta.content
+        when "csrf-param"
+          csrf_param = meta.content
+        else
+          i++
+          continue
+      i++
+    params[csrf_param] = csrf_token  if csrf_param isnt `undefined` and csrf_token isnt `undefined`
+    params
+
+  #Querystring
+  config.addQueryString = (url, params) ->
+    queryString = []
+    unless params
+      return url
+    else
+      for i of params
+        queryString.push i + "=" + encodeURIComponent(params[i])
+    url + ((if (url.indexOf("?") isnt -1) then "&" else "?")) + queryString.join("&")
+
+
+  # Integrate Rails CSRF token into file upload dialogs (link, image, attachment and flash) -> https://github.com/galetahub/ckeditor/blob/master/app/assets/javascripts/ckeditor/config.js
+  CKEDITOR.on "dialogDefinition", (ev) ->
+
+    # Take the dialog name and its definition from the event data.
+    dialogName = ev.data.name
+    dialogDefinition = ev.data.definition
+    content = undefined
+    upload = undefined
+    if CKEDITOR.tools.indexOf([
+      "link"
+      "image"
+      "image2"
+      "attachment"
+      "flash"
+    ], dialogName) > -1
+      content = (dialogDefinition.getContents("Upload") or dialogDefinition.getContents("upload"))
+      upload = ((if not content? then null else content.get("upload")))
+      if upload and upload.filebrowser and upload.filebrowser["params"] is `undefined`
+        upload.filebrowser["params"] = config.filebrowserParams()
+        upload.action = config.addQueryString(upload.action, upload.filebrowser["params"])
+    return
+
+  ##################################
+
+  # Title Attrs
+  config.title = false
+
+  # Content
+  #config.contentsCss = '<%= asset_path("ckeditor.css") %>'
+
+  # HTML5 Tags
+  config.extraAllowedContent = 'section article header nav aside[lang,foo]'
+
+  # Skin
+  config.skin = 'moonocolor'
+
+  # Plugins
+  config.extraPlugins   = "stylesheetparser,autogrow"
+  config.removePlugins  = "forms"
+
+  # Autogrow
+  # http://docs.ckeditor.com/#!/guide/dev_autogrow-section-stylistic-fine-tuning
+  config.autoGrow_minHeight   = 250
+  config.autoGrow_maxHeight   = 600
+  config.autoGrow_onStartup   = true
+  config.autoGrow_bottomSpace = 30
+
+  # Toobar
+  config.toolbar_Pure = [
+    { name: 'document',    items: [ 'Source' ] },
+    { name: 'styles',      items: [ 'Format' ] }
+    { name: 'basicstyles', items: [ 'Bold','Italic','Underline','Strike','-','JustifyLeft', 'JustifyCenter', 'JustifyRight', '-', 'RemoveFormat']},
+    { name: 'paragraph',   items: [ 'NumberedList','BulletedList','-','Blockquote'] },
+    { name: 'table',       items: [ 'Table' ]},
+    { name: 'hr',          items: [ 'HorizontalRule' ]}
+    { name: 'colors',      items: [ 'TextColor', 'BGColor' ] },
+    { name: 'urls',        items: [ 'Link','Unlink']},
+    { name: 'insert',      items: [ 'Image', 'WPMore', 'Scayt' ]},
+    { name: 'tools',       items: [ 'Maximize', 'ShowBlocks' ] },
+  ]
+  config.toolbar = "Pure"
+  return
+
+#################################################

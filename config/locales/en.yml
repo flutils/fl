@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      user:
+        one:    "User"
+        other:  "Users"
+      page:
+        one:    "Page"
+        other:  "Pages"
+      meta/option:
+        one:    "Option"
+        other:  "Options"
+    attributes:
+      node:
+        slug:   "URL"
+        ref:    "Title"
+        val:    "Content"
