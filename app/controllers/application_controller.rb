@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
     # => Layout
-    layout Proc.new { |c| 'base' unless c.request.xhr? }
+    layout Proc.new { |c| Rails.application.secrets[:app][:layout] || 'base' unless c.request.xhr? }
 
     # => Maintenance
     before_action Proc.new { @maintenance = Node.find_by(ref: "maintenance").try(:val) }, only: :show
