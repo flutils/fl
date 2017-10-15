@@ -12,7 +12,7 @@ class CreateProfiles < ActiveRecord::Migration::Current
         t.integer    :role, default: 0
 
         # => Extras
-        t.boolean    :public, default: 0
+        t.boolean    :public, default: false
         t.boolean    :is_destroyable
 
         # => Timestamps
