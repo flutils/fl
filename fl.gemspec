@@ -56,7 +56,7 @@ Gem::Specification.new do |spec|
     spec.add_dependency 'activeadmin'                   # => ActiveAdmin
 
     ## Backend ##
-    spec.add_dependency 'bootstrap', '~> 4.0.0.beta'    # => Bootstrap (tooltips)
+    spec.add_dependency 'bootstrap', '~> 4.0.0'         # => Bootstrap (tooltips)
     spec.add_dependency 'liquid'                        # => Liquid
     spec.add_dependency 'ckeditor'                      # => CKEditor
     spec.add_dependency 'nilify_blanks'                 # => Nilify Blanks
