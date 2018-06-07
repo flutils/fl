@@ -1,46 +1,37 @@
 ############################################################
 ############################################################
+##           _____       _   _                            ##
+##          |  _  |     | | (_)                           ##
+##          | | | |_ __ | |_ _  ___  _ __  ___            ##
+##          | | | | '_ \| __| |/ _ \| '_ \/ __|           ##
+##          \ \_/ / |_) | |_| | (_) | | | \__ \           ##
+##           \___/| .__/ \__|_|\___/|_| |_|___/           ##
+##                | |                                     ##
+##                |_|                                     ##
+##                                                        ##
+############################################################
+############################################################
 
-## Vars ##
-item  = File.basename(__FILE__, ".*").singularize.titleize
-model = ["Meta", item].join("::")
-
-## Check ##
-unless (model.constantize rescue nil).nil?
+## This is used to add custom pages (typically from Node) ##
 
 ############################################################
 ############################################################
 
-  ActiveAdmin.register model.constantize, as: item.to_s do
+## Make Sure Table Exists ##
+if ActiveRecord::Base.connection.table_exists? 'nodes'
 
-    ##################################
-    ##################################
+  ActiveAdmin.register_page 'Dash' do
 
     # => Menu
-    menu priority: 2, label: -> { ['🔒', model.constantize.model_name.human(count: 2)].join(' ') }
+    menu priority: 0, label: '💵 Dashboard'
 
-    # => Strong Params
-    permit_params :slug, :ref, :val
-
-    ##################################
-    ##################################
-
-    # => Index
-    index do
-      selectable_column
-      column :ref
-      column :val
-      column :created_at
-      column :updated_at
-      actions
+    # => Content
+    content do
+      para "Hello World"
     end
-
-    ##################################
-    ##################################
-
   end
 
-############################################################
-############################################################
-
 end
+
+############################################################
+############################################################

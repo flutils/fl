@@ -9,6 +9,7 @@ class CreateAssociations < ActiveRecord::Migration::Current
       create_table table, options do |t|
     		t.references  :associatiable, { polymorphic: true } # => http://stackoverflow.com/a/29257570/1143732
     		t.references  :associated, 	  { polymorphic: true } # => http://stackoverflow.com/a/29257570/1143732
+        t.string      :value                                # => Value (for comments or whatever)
     		t.timestamps
     	end
     end

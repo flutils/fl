@@ -42,7 +42,7 @@ module FL
     module VERSION
       MAJOR = 0
       MINOR = 3
-      TINY  = 8
+      TINY  = 9
       PRE   = nil
       STRING = [MAJOR, MINOR, TINY, PRE].compact.join(".")
     end

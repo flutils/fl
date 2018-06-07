@@ -1,1 +1,1 @@
-= @content.val
+= @content.try(:val).try(:html_safe)

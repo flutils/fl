@@ -10,11 +10,7 @@ class Meta
 
         # => Each Meta model
         classes.each do |klass| #-> "class" is reserved
-          meta = klass.val
-          self.const_set meta.titleize, Class.new(Node) do
-            accepts_nested_attributes_for   :associations
-            has_many meta.pluralize.to_sym, through: :associations, source: :associated, source_type: "Meta::" + meta.titleize, class_name: "Meta::" + meta.titleize
-          end
+          self.const_set klass.val.titleize, Class.new(Node)
         end
 
       end

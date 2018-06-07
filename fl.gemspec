@@ -50,13 +50,15 @@ Gem::Specification.new do |spec|
 
     ## Prod ##
     spec.add_dependency 'rails',     '>= 5'             # => Rails
-    spec.add_dependency 'sprockets', '~> 3.7.1'         # => Sprockets
+    spec.add_dependency 'sprockets', '~> 4.0.0.beta4', '< 4.0.0.beta5'  # => Sprockets (beta7 works in development but not heroku)
     spec.add_dependency 'autoprefixer-rails'            # => Autoprefixer
     spec.add_dependency 'font-awesome-rails'            # => Icons
     spec.add_dependency 'activeadmin'                   # => ActiveAdmin
+    spec.add_dependency 'formadmin'                     # => FormAdmin (ActiveAdmin Skin)
+    spec.add_dependency 'activeadmin_addons'            # => ActiveAdmin addons
 
     ## Backend ##
-    spec.add_dependency 'bootstrap', '~> 4.0.0'         # => Bootstrap (tooltips)
+    spec.add_dependency 'bootstrap', '~> 4.1.1' # => Bootstrap (tooltips)
     spec.add_dependency 'liquid'                        # => Liquid
     spec.add_dependency 'ckeditor'                      # => CKEditor
     spec.add_dependency 'nilify_blanks'                 # => Nilify Blanks

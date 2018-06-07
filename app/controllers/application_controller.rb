@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
     # => Responders Gem
     respond_to :html
 
+    # => Authentication
+    http_basic_authenticate_with name: Rails.application.class.parent.to_s.downcase, password: "Twitter234" if Rails.env.staging?
+
   ##################################
   ##################################
 
@@ -14,7 +17,7 @@ class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
 
     # => Layout
-    layout Proc.new { |c| Rails.application.secrets[:app][:layout] || 'base' unless c.request.xhr? }
+    layout Proc.new { |c| Rails.application.credentials[Rails.env.to_sym][:app][:layout] || 'base' unless c.request.xhr? }
 
     # => Maintenance
     before_action Proc.new { @maintenance = Node.find_by(ref: "maintenance").try(:val) }, only: :show
@@ -28,7 +31,7 @@ class ApplicationController < ActionController::Base
     # => If not using bang operator in find, use || "No Content"
     def show
       raise ActionController::RoutingError.new('Not Found') if params[:id] == "index"
-      @content = Node.find_by_slug! params[:id] || "index"
+      @content = Meta::Page.find_by_slug! params[:id] || "index"
     end
 
   ##################################

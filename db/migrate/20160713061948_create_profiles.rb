@@ -11,6 +11,10 @@ class CreateProfiles < ActiveRecord::Migration::Current
         t.string     :name
         t.integer    :role, default: 0
 
+        # => Sound
+        t.integer    :sound_fx ,     default: 60, limit: 1
+        t.integer    :ambient_sound, default: 60, limit: 1
+
         # => Extras
         t.boolean    :public, default: false
         t.boolean    :is_destroyable

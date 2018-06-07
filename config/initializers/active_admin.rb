@@ -1,6 +1,14 @@
 # => Check if ActiveAdmin loaded
-if Gem.loaded_specs.has_key?('activeadmin')
-  #puts defined?(ActiveAdmin)
+if Object.const_defined?("ActiveAdmin")
+
+  ##################################
+  ##################################
+
+  # => Location
+  namespace = (Rails.env.staging? ? 'admin' : nil)
+
+  ##################################
+  ##################################
 
   # => Engine
   # => https://github.com/activeadmin/activeadmin/wiki/define-a-resource-inside-an-engine
@@ -14,7 +22,7 @@ if Gem.loaded_specs.has_key?('activeadmin')
     # Set the title that is displayed on the main layout
     # for each of the active admin pages.
     #
-    config.site_title = Rails.application.secrets.app[:title]
+    config.site_title = Rails.application.credentials[Rails.env.to_sym][:app][:title]
 
     # Set the link url for the title. For example, to take
     # users to your main site. Defaults to no link.
@@ -44,7 +52,7 @@ if Gem.loaded_specs.has_key?('activeadmin')
     #   config.default_namespace = false
     #
     # Default:
-    config.default_namespace = false
+    config.default_namespace = namespace # => Staging = Heroku
     #
     # You can customize the settings for each namespace by using
     # a namespace block. For example, to change the site title
@@ -126,7 +134,8 @@ if Gem.loaded_specs.has_key?('activeadmin')
     # To understand how to localize your app with I18n, read more at
     # https://github.com/svenfuchs/i18n/blob/master/lib%2Fi18n%2Fbackend%2Fbase.rb#L52
     #
-    config.localize_format = :short
+    # https://activeadmin.info/1-general-configuration.html#localize-format-for-dates-and-times
+    config.localize_format = '%b %d, %Y %-l:%M%P' # :short
 
     # == Setting a Favicon
     config.favicon = 'favicon.ico'
@@ -137,9 +146,9 @@ if Gem.loaded_specs.has_key?('activeadmin')
     #
     # Add tags to all pages logged in users see:
     config.meta_tags = {
-      author:      Rails.application.secrets.app[:author],
-      keywords:    Rails.application.secrets.app[:keywords],
-      description: Rails.application.secrets.app[:description]
+      author:      Rails.application.credentials[Rails.env.to_sym][:app][:author],
+      keywords:    Rails.application.credentials[Rails.env.to_sym][:app][:keywords],
+      description: Rails.application.credentials[Rails.env.to_sym][:app][:description]
     }
 
     # By default, sign up/sign in/recover password pages are excluded
@@ -198,23 +207,23 @@ if Gem.loaded_specs.has_key?('activeadmin')
     #
     # To change the default utility navigation to show a link to your website & a logout btn
     #
-    #   config.namespace :admin do |admin|
-    #     admin.build_menu :utility_navigation do |menu|
-    #       menu.add label: "My Great Website", url: "http://www.mygreatwebsite.com", html_options: { target: :blank }
-    #       admin.add_logout_button_to_menu menu
-    #     end
-    #   end
-
-    ### Custom User Credentials (top right) ###
-    #config.namespace "" do |admin|
+    #config.namespace :admin do |admin|
     #  admin.build_menu :utility_navigation do |menu|
-    ##    menu.add  :label  => proc{ display_name current_active_admin_user.name },
-    #      :url    =>  proc{  edit_admin_admin_user_path(current_active_admin_user) }  ,#link_to current_active_admin_user,
-    #      :id     => 'current_user',
-    #      :if     => proc{ current_active_admin_user? }
+    #    menu.add label: "My Great Website", url: "http://www.mygreatwebsite.com", html_options: { target: :blank }
     #    admin.add_logout_button_to_menu menu
     #  end
     #end
+
+    ### Custom User Credentials (top right) ###
+    config.namespace namespace do |admin|
+      admin.build_menu :utility_navigation do |menu|
+        menu.add :label   => proc{ [current_active_admin_user.try(:avatar).try(:url) ? image_tag(current_active_admin_user.try(:profile).try(:avatar).try(:url, :thumb)) : nil, display_name(current_active_admin_user.name)].join.html_safe },
+          :url            => proc{ Rails.env.staging? ?  edit_admin_user_path(current_active_admin_user) : edit_user_path(current_active_admin_user) },
+          :id             => 'current_user',
+          :if             => proc{ current_active_admin_user? }
+        admin.add_logout_button_to_menu menu
+      end
+    end
 
     #
     # If you wanted to add a static menu item to the default menu provided:
@@ -277,7 +286,7 @@ if Gem.loaded_specs.has_key?('activeadmin')
     # By default, the footer shows the current Active Admin version. You can
     # override the content of the footer here.
     #
-    config.footer = "<b><a href=\"#{Rails.application.secrets[:app][:domain]}\">#{Rails.application.secrets[:app][:name]}</a> © #{Date.today.year}</b>".html_safe
+    config.footer = "<b><a href=\"#{URI::HTTP.build(host: Rails.application.credentials[Rails.env.to_sym][:app][:domain])}\">#{Rails.application.credentials[Rails.env.to_sym][:app][:name]}</a> ©️ #{Date.today.year}</b>".html_safe
 
   end
 

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :trackable, :validatable#, :registerable,
 
 ####################################################################
+####################################################################
 
   # Virtual Attrs
   attr_accessor :send_email
@@ -11,39 +12,41 @@ class User < ApplicationRecord
   # Alias Attributes
   alias_attribute :ref, :email
 
-  # Profile
+  ## Profile ##
   has_one :profile, dependent: :destroy, inverse_of: :user
   before_create :build_profile, unless: :profile
 
-  # Associations
+  ## Associations ##
   has_many :nodes
   has_many :associations, as: :associatiable, dependent: :destroy
 
-  # Delegate
-  delegate :name, :first_name, :slug, :avatar, :role, to: :profile
+  ## Assets ##
+  has_many :assets, as: :assetable, dependent: :destroy
 
-  # Options
-  after_create Proc.new { |u| ApplicationMailer.new_user(u).deliver }, if: :send_email
+  ## Delegate ##
+  delegate :name, :first_name, :slug, :avatar, :role, :public, :admin?, to: :profile
+  accepts_nested_attributes_for :profile
+
+  ## Options ##
+  after_create Proc.new { |u| ApplicationMailer.new_user(u).deliver! }, if: :send_email
 
 ####################################################################
+####################################################################
 
+  #####################
   # Instance (private)
-  ###################
+  #####################
 
     # => For form
     def is_destroyable?
       false
     end
 
-    # => Admin?
-    def admin?
-      return false if ("Meta::Role".constantize rescue nil).nil?
-      role == Meta::Role.val("admin")
-    end
-
+  #####################
   # Class (public)
-  ###################
+  #####################
 
+####################################################################
 ####################################################################
 
 end

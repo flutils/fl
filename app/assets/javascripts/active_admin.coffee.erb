@@ -12,10 +12,11 @@
 
 # ActiveAdmin
 #= require active_admin/base
+#= require activeadmin_addons/all
 
-<% if Gem.loaded_specs.has_key? 'ckeditor' %>
-#= require ckeditor/init
-<% end %>
+# CKEditor
+# https://stackoverflow.com/questions/25910178/how-do-i-add-conditional-assets-in-rails-4
+<% require_asset 'ckeditor/init' if Gem.loaded_specs.has_key? 'ckeditor' %>
 
 ############################################
 ############################################

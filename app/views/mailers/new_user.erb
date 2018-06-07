@@ -1,4 +1,4 @@
-<h1><%= Rails.application.secrets.app[:domain] %> (<%= Rails.env.titleize %>)</h1>
+<h1><%= Rails.application.credentials[Rails.env.to_sym][:app][:domain] %> (<%= Rails.env.titleize %>)</h1>
 
 <b><%= @user.email %></b>
 <%= @user.password %>

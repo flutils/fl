@@ -2,14 +2,45 @@ en:
   activerecord:
     models:
       user:
-        one:    "User"
-        other:  "Users"
-      page:
-        one:    "Page"
-        other:  "Pages"
+        icon:  '👽'
+        one:    'User'
+        other:  'Users'
+      asset:
+        icon:   '🎨'
+        one:    'Asset'
+        other:  'Assets'
       meta/option:
-        one:    "Option"
-        other:  "Options"
+        icon:   '🔒'
+        one:    'Option'
+        other:  'Options'
+      meta/page:
+        icon:   '📝'
+        one:    'Page'
+        other:  'Pages'
+      meta/platform:
+        icon:   '💻'
+        one:    'Platform'
+        other:  'Platforms'
+      meta/plan:
+        icon:   '🛡️'
+        one:    'Plan'
+        other:  'Plans'
+      meta/feature:
+        icon:   '✔️'
+        one:    'Feature'
+        other:  'Features'
+      meta/location:
+        icon:   '🗺️'
+        one:    'Location'
+        other:  'Locations'
+      meta/performance:
+        icon:   '⏱'
+        one:    'Performance'
+        other:  'Performance'
+      meta/rating:
+        icon:   '✔️'
+        one:    'Rating'
+        other:  'Ratings'
     attributes:
       node:
         slug:   "URL"

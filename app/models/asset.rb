@@ -10,7 +10,8 @@ class Asset < ApplicationRecord
 
   # => Associations
   ##################
-  belongs_to :assetable, polymorphic: true
+  belongs_to :user, optional: true # => Who Uploaded
+  belongs_to :assetable, polymorphic: true, optional: true # => Where Uploaded
 
   # => CkEditor
   ##################

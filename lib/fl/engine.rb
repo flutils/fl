@@ -28,6 +28,12 @@ module FL
       end
     end
 
+    # => Belongs To
+    # => https://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html
+    initializer :belongs_to do |app|
+      app.config.active_record.belongs_to_required_by_default = true
+    end
+
     # => SASS Vars
     # => http://stackoverflow.com/a/4081810/1143732
     config.before_initialize do |app|
@@ -35,11 +41,7 @@ module FL
     end
 
     # => ExceptionHandler
-    config.exception_handler = {
-      email:  false,
-      db:     nil,
-      dev:    false
-    }
+    config.exception_handler = { db: nil }
 
     # => Assets
     config.assets.precompile << %w(application.css application.js)
@@ -51,7 +53,7 @@ module FL
     config.before_initialize do |app|
 
       # => TimeZone
-      app.config.time_zone = Rails.application.secrets.app[:time_zone] || "GMT"
+      app.config.time_zone = Rails.application.credentials[Rails.env.to_sym][:app][:time_zone] || "GMT"
 
       ###########################################
       ###########################################
@@ -59,18 +61,18 @@ module FL
         # => Email
         # => https://sendgrid.com/docs/Integrate/Frameworks/rubyonrails.html
         # => http://apidock.com/rails/ActionMailer/Base/default/class
-        app.config.action_mailer.logger             = nil
+        app.config.action_mailer.logger             = Rails.application.credentials[Rails.env.to_sym][:mail][:logger] || nil
         app.config.action_mailer.delivery_method    = :smtp
-        app.config.action_mailer.default_options    = { from: "#{Rails.application.secrets.app[:name]} <#{Rails.application.secrets.app[:email]}>" }
+        app.config.action_mailer.default_options    = { host: Rails.application.credentials[Rails.env.to_sym][:app][:domain], from: "#{Rails.application.credentials[Rails.env.to_sym][:app][:name]} <#{Rails.application.credentials[Rails.env.to_sym][:app][:email]}>" }
         app.config.action_mailer.smtp_settings      = {
-          user_name:            Rails.application.secrets.mail[:user],
-          password:             Rails.application.secrets.mail[:pass],
-          address:              Rails.application.secrets.mail[:host],
-          port:                 Rails.application.secrets.mail[:port],
-          authentication:       Rails.application.secrets.mail[:auth]    || :plain,
-          enable_starttls_auto: Rails.application.secrets.mail[:ttls]    || true,
-          openssl_verify_mode:  Rails.application.secrets.mail[:openssl] || nil,
-          domain:               Rails.application.secrets.app[:domain]
+          user_name:            Rails.application.credentials[Rails.env.to_sym][:mail][:user],
+          password:             Rails.application.credentials[Rails.env.to_sym][:mail][:pass],
+          address:              Rails.application.credentials[Rails.env.to_sym][:mail][:host],
+          port:                 Rails.application.credentials[Rails.env.to_sym][:mail][:port],
+          authentication:       Rails.application.credentials[Rails.env.to_sym][:mail][:auth]    || :plain,
+          enable_starttls_auto: Rails.application.credentials[Rails.env.to_sym][:mail][:ttls]    || true,
+          openssl_verify_mode:  Rails.application.credentials[Rails.env.to_sym][:mail][:openssl] || nil,
+          domain:               Rails.application.credentials[Rails.env.to_sym][:app][:domain]
         }
 
       ###########################################
@@ -94,14 +96,14 @@ module FL
           default_style:  :medium,
           keep_old_files: true,
           styles: { large: "x850", medium: "x450", thumb: "x200"},
-          url:  Rails.application.secrets[:app].try(:paperclip).try(:url)  || '/assets/:attachment/:id/:style/:basename.:extension',
-          path: Rails.application.secrets[:app].try(:paperclip).try(:path) || ':rails_root/public:url'
+          url:  Rails.application.credentials[Rails.env.to_sym][:app].try(:paperclip).try(:url)  || '/assets/:attachment/:id/:style/:basename.:extension',
+          path: Rails.application.credentials[Rails.env.to_sym][:app].try(:paperclip).try(:path) || ':rails_root/public:url'
         }
 
         # => Pusher
         if Gem.loaded_specs.has_key? "pusher"
           %i(app_id key secret cluster encrypted logger).each do |item|
-            Pusher.send item.to_s + "=", Rails.application.secrets[:pusher][item]
+            Pusher.send item.to_s + "=", Rails.application.credentials[Rails.env.to_sym][:pusher][item]
           end
         end
 
@@ -118,7 +120,7 @@ module FL
 
         # => Base URL
         # => https://github.com/rails-api/active_model_serializers/blob/master/docs/general/getting_started.md#rails-integration
-        Rails.application.routes.default_url_options = { host: Rails.application.secrets.app[:domain] }
+        Rails.application.routes.default_url_options = { host: Rails.application.credentials[Rails.env.to_sym][:app][:domain] }
 
         # => Partials using Namespacing
         # => As referenced in this pull request: https://github.com/rails/rails/pull/5625

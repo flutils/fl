@@ -1,5 +1,5 @@
 # => Check if CKEditor loaded
-if Gem.loaded_specs.has_key? "ckeditor"
+if Object.const_defined?("Ckeditor")
 
   # => Use this hook to configure ckeditor
   Ckeditor.setup do |config|

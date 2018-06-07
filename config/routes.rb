@@ -22,16 +22,22 @@ Rails.application.routes.draw do
   ########################################
   ########################################
 
-    # => CKEditor
-    mount Ckeditor::Engine => '/ckeditor' if Gem.loaded_specs.has_key? "ckeditor"
-
     # => ActiveAdmin
-    if Gem.loaded_specs.has_key? "activeadmin"
+    # => Used to provide an "admin" area for users (won't need this with RailsHosting's dashboard)
+    if Gem.loaded_specs.has_key? 'activeadmin'
+
+      # => CKEditor
+      mount Ckeditor::Engine => '/ckeditor' if Gem.loaded_specs.has_key? 'ckeditor'
 
       # => Admin
-      constraints subdomain: "admin" do
+      if Rails.env.staging?
         devise_for :users, ActiveAdmin::Devise.config
         ActiveAdmin.routes(self)
+      else
+        constraints subdomain: 'admin' do
+          devise_for :users, ActiveAdmin::Devise.config
+          ActiveAdmin.routes(self)
+        end
       end
 
     end
